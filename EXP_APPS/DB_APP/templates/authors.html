@@ -1,0 +1,8 @@
+<html>
+    <h1>This is the list of authors:</h1>
+    <ul>
+    	{% for author in authors %}
+        	<li>{{ author['id'] }}: {{ author['name'] }}</li>
+    	{% endfor %}
+    </ul>
+</html>
