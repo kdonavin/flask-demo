@@ -24,7 +24,11 @@ def connect_db():
 @app.route('/')
 def hello_world():
     db_connection = connect_db()
-    cursor = db_connection.execute('SELECT id, name, country_id FROM author;')
+    cursor = db_connection.execute('''
+                                    SELECT id, name, country_id 
+                                   FROM author
+                                   ORDER BY name;
+                                   ''')
     authors = [dict(id=row[0], name=row[1], country_id=row[2]) for row in cursor.fetchall()]
     return render_template('authors.html', authors=authors)
 
