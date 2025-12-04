@@ -17,19 +17,24 @@ app = Flask(__name__)
 def connect_db():
     return sqlite3.connect(config.DATABASE_NAME)
 
-# @app.before_request
-# def before_request():
-#     g.db = connect_db()    
+@app.before_request
+def before_request():
+    '''
+    Connect to the database before the following any request is handled.
+    Would enable multiple queries per request (or helper-function) if needed.
+    '''
+    g.db = connect_db()    
 
 @app.route('/')
 def hello_world():
     db_connection = connect_db()
-    cursor = db_connection.execute('''
-                                    SELECT id, name, country_id 
-                                   FROM author
-                                   ORDER BY name;
-                                   ''')
-    authors = [dict(id=row[0], name=row[1], country_id=row[2]) for row in cursor.fetchall()]
+    cursor = g.db.execute('''
+                            SELECT a.id, a.name, c.name as country
+                            FROM author AS a
+                                INNER JOIN country AS c ON a.country_id = c.id
+                            ORDER BY a.name;
+                          ''')
+    authors = [dict(id=row[0], name=row[1], country=row[2]) for row in cursor.fetchall()]
     return render_template('authors.html', authors=authors)
 
 if __name__ == '__main__':

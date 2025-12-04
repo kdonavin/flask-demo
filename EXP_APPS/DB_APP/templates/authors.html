@@ -1,11 +1,11 @@
 <html>
-    <h1>This is the list of authors (American authors in <b>bold</b>):</h1>
+    <h1>This is <em>a</em> list of authors (American authors in <b>bold</b>):</h1>
     <ul>
     	{% for author in authors %}
-            {% if author['country_id']==1 %}
-                <li><b>{{author['id']}}: {{author['name']}}</b></li>
+            {% if author['country']=='United States' %}
+                <li><b>{{author['id']}}: {{author['name']}} (from {{author['country']}})</b></li>
             {% else %}  
-                <li>{{author['id']}}: {{author['name']}}</li>
+                <li>{{author['id']}}: {{author['name']}} (from {{author['country']}})</li>
             {% endif %}
     	{% endfor %}
     </ul>
