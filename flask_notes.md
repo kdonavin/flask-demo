@@ -59,16 +59,30 @@ return render_template('author.html',
         return render_template('404.html'), 404
     ```
 Note that by default, flask methods return a `200` code, (i.e., 'okay'). To specify otherwise, return the correct code as the second element of a tuple (e.g., as above).
-* `@app.route('/route')`: Specifies the directory route, which will run the following code when accessed by a client. 
-    * **Dynamic Routes**: Generated with `<` and `>`. For example
-    ```python
-    @app.route('/authors/<authors_last_name>')
-    def author(authors_last_name): #passed from the url above
-        return render_template('author.html',
-                           author_ln=authors_last_name)
-    ```
-    This will fill in the `{{ author_ln }}` Jinja variable in the `.html` file with the author's last name.
-    * **Data Types**: Dynamic route values' data types may be specified preceding the value name. E.g., `@app.route('/people/<int:age>')`.
+* **Route Decorator**: `@app.route('/route/to/site')` Specifies the directory `/route/to/site`, which will run the following (single) function/method when accessed by a client.
+```python
+@app.route('/')
+def hello_world():
+    db_connection = connect_db()  # helper function
+    data = process_data()          # another helper function
+    return render_template('index.html', data=data)
+```
+Multiple routes can use the same function:
+```python
+@app.route('/')
+@app.route('/home')
+def index():
+    return "Home page"
+```
+* **Dynamic Routes**: Generated with `<` and `>`. For example
+```python
+@app.route('/authors/<authors_last_name>')
+def author(authors_last_name): #passed from the url above
+    return render_template('author.html',
+                        author_ln=authors_last_name)
+```
+This will fill in the `{{ author_ln }}` Jinja variable in the `.html` file with the author's last name.
+* **Data Types**: Dynamic route values' data types may be specified preceding the value name. E.g., `@app.route('/people/<int:age>')`.
 
 ## URLs Quick and Dirty
 
@@ -86,15 +100,13 @@ Note that by default, flask methods return a `200` code, (i.e., 'okay'). To spec
 Other template styles may be specified, but Jinja is the default style.
 
 * **Variables - `{{ <var> }}`**: A placeholder for template building
-* **For-Loop**: Render HTML with a for-loop iteration over an input variable.
+* **For-Loop**: Render HTML with a for-loop iteration over an input variable defined within the `app()`. `authors
 ```html
-...
 <ul>
     {% for author in authors %}
         <li>{{ author }}</li>
     {% endfor %}
 </ul>
-...
 ```
 * **If-Else Conditionals**: Renders HTML based on a conditional switch. Conditionals come between `%`s and are finished with `endif`. The following adds bold (`<b>` tag) to `'name'` of `author` if it has `country_id == 2`.
 ```html
