@@ -7,12 +7,13 @@ building an HTML template with it.
 Requirements:
  * A database created with some data about authors inside.
 """
-from flask import Flask, g, render_template, request
+from flask import Flask, g, render_template, request, flash, redirect, url_for
 import config  # type: ignore
 import os
 import sqlite3
 
 app = Flask(__name__)
+app.secret_key = 'your-secret-key-here-change-in-production'  # Required for flash messages
 
 def connect_db():
     return sqlite3.connect(config.DATABASE_NAME)
@@ -33,7 +34,9 @@ def hello_world():
         country_name = request.form.get('country', '').strip()
         
         # Skip if either field is empty after stripping
-        if author_name and country_name:
+        if not author_name or not country_name:
+            flash('Please fill in both Author Name and Country fields.', 'error')
+        else:
             # Check if country exists, if not insert it
             country_cursor = g.db.execute('SELECT id FROM country WHERE name = ?', (country_name,))
             country_row = country_cursor.fetchone()
@@ -57,8 +60,14 @@ def hello_world():
                 g.db.execute('INSERT INTO author (name, country_id) VALUES (?, ?)',
                              (author_name, country_id))
                 g.db.commit()
-            # If author exists, do nothing (skip insertion)
+                flash(f'Author "{author_name}" from {country_name} added successfully!', 'success')
+            else:
+                # If author exists, show info message
+                flash(f'Author "{author_name}" already exists in the database.', 'info')
+        
+        return redirect(url_for('hello_world'))
     
+    # GET request continues here (either direct visit or after redirect)
     cursor = g.db.execute('''
                         SELECT a.id, a.name, c.name as country
                         FROM author AS a
