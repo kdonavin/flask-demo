@@ -13,6 +13,7 @@ python build_model.py --data path_to_input_data --out path_to_save_pickled_model
 import argparse
 import pickle
 import pandas as pd
+import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 
@@ -118,5 +119,11 @@ if __name__ == '__main__':
     X, y = get_data(args.data)
     tc = TextClassifier()
     tc.fit(X, y)
-    with open(args.out, 'w') as f:
+    
+    # Create directory if it doesn't exist
+    output_dir = os.path.dirname(args.out)
+    if output_dir and not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    
+    with open(args.out, 'wb') as f:  # Use 'wb' for binary write mode
         pickle.dump(tc, f)
