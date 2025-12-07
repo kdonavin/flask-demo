@@ -411,3 +411,9 @@ def hello_world():
 ## References
 
 * [Flask Tutorial Step by Step - Udemy Course](https://www.udemy.com/course/draft/1114060)
+
+### To Review:
+
+* [Python on Heroku](https://devcenter.heroku.com/articles/getting-started-with-python)
+* [API design with Flask](http://blog.luisrei.com/articles/rest.html)
+* [Flask-restful](http://blog.miguelgrinberg.com/post/designing-a-restful-api-using-flask-restful)
