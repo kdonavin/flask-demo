@@ -19,7 +19,9 @@ Flask is a web micro-framework. It provides you with the minimal tools and libra
     * [After-Request Decorator](#after-request-decorator)
     * [Teardown-Request Decorator](#teardown-request-decorator)
 * [URLs Quick and Dirty](#urls-quick-and-dirty)
-* [Jinja Template Syntax](#jinja-template-syntax)
+* [Frontend Integration](#frontend-integration)
+    * [Jinja Template Syntax](#jinja-template-syntax)
+    * [AJAX with Flask](#ajax-with-flask)
 * [Databases in Flask](#databases-in-flask)
 * [File Input in Flask](#file-input-in-flask)
 * [References](#references)
@@ -240,7 +242,9 @@ def teardown_request(exception):
 * **Port:** Hold additional information used to connect with the host (think apartment number to the host's street address)
 * **Path:** Indicates where on the server the file you are requesting lives.
 
-## Jinja Template Syntax
+## Frontend Integration
+
+### Jinja Template Syntax
 
 Other template styles may be specified, but Jinja is the default style.
 
@@ -263,11 +267,122 @@ Other template styles may be specified, but Jinja is the default style.
     {% endif %}
 </ul>
 ```
-* **Joins
+
+### AJAX with Flask
+
+AJAX (Asynchronous JavaScript And XML) enables web pages to communicate with the server without reloading the entire page, creating a smoother, more responsive user experience.
+
+**Why AJAX is Smoother:**
+
+Traditional form submissions cause the browser to:
+1. Clear the current page (white screen flash)
+2. Send the entire form to the server
+3. Wait for server to generate complete new HTML page
+4. Load and render the entire new page
+
+AJAX instead:
+1. Sends only the data to the server (as JSON)
+2. Page stays intact during processing
+3. Server returns only the result (as JSON)
+4. JavaScript updates specific parts of the page
+
+**Benefits:**
+* No jarring page reloads or white screen flashes
+* Form stays intact - easy to modify and resubmit
+* Better user feedback (loading spinners, animations)
+* Feels like a modern desktop application
+* Transfers less data (JSON vs entire HTML pages)
+* Maintains scroll position and page state
+
+**Flask AJAX Implementation:**
+
+**Backend (Flask route):**
+```python
+from flask import Flask, request, jsonify
+
+@app.route('/predict_ajax', methods=['POST'])
+def predict_ajax():
+    """Handle AJAX request and return JSON response"""
+    try:
+        # Get JSON data from request
+        data = request.get_json()
+        article_text = data.get('article_body', '')
+        
+        # Validate input
+        if not article_text:
+            return jsonify({'success': False, 'error': 'No text provided'}), 400
+        
+        # Process data (e.g., make prediction)
+        prediction = model.predict([article_text])[0]
+        
+        # Return JSON response
+        return jsonify({'success': True, 'prediction': str(prediction)})
+    
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+```
+
+**Frontend (JavaScript with jQuery):**
+```html
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#myForm').on('submit', function(e) {
+        e.preventDefault(); // Prevent normal form submission
+        
+        // Get form data
+        var textData = $('#inputField').val();
+        
+        // Show loading indicator
+        $('#submitBtn').prop('disabled', true);
+        $('.spinner').show();
+        
+        // Make AJAX request
+        $.ajax({
+            url: '/predict_ajax',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                article_body: textData
+            }),
+            success: function(response) {
+                if (response.success) {
+                    // Update page with result
+                    $('#result').text(response.prediction).fadeIn();
+                } else {
+                    // Show error message
+                    $('#error').text(response.error).fadeIn();
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle HTTP errors
+                var errorMsg = xhr.responseJSON?.error || 'Request failed';
+                $('#error').text(errorMsg).fadeIn();
+            },
+            complete: function() {
+                // Reset button state
+                $('#submitBtn').prop('disabled', false);
+                $('.spinner').hide();
+            }
+        });
+    });
+});
+</script>
+```
+
+**Key Points:**
+* Flask route must return `jsonify()` for JSON responses
+* Use `request.get_json()` to parse incoming JSON data
+* Set `contentType: 'application/json'` in AJAX call
+* Use `JSON.stringify()` to convert JavaScript objects to JSON
+* Handle both success and error cases
+* Provide user feedback (loading states, error messages)
+* Return appropriate HTTP status codes (400 for bad request, 500 for server error)
 
 ## Databases in Flask
 
-`sqlite3` has a built-in module for python, making it convenient for managing SQL databases in python. A `sqlite3` database may be accessed with the following flask method:
+`sqlite3` has a built-in module for python, making it convenient for managing SQL databases in python, and for use with Flask. A `sqlite3` database may be accessed with the following flask method:
 
 ```python
 import sqlite3
