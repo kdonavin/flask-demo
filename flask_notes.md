@@ -2,8 +2,8 @@
 
 Flask is a web micro-framework. It provides you with the minimal tools and libraries to build a web application in Python. It is a micro-framework because it only has 2 dependencies
 
-* Werkseug - a WSGI (Web Server Gateway Interface) utility library for interface between web servers and web applications for the Python programming language.
-* Jinja2 - an html template engine
+* [Werkseug](https://werkzeug.palletsprojects.com/en/stable/) - a [WSGI](https://wsgi.readthedocs.io/en/latest/) (Web Server Gateway Interface) utility library for interface between web servers and web applications for the Python programming language.
+* [Jinja2](https://jinja.palletsprojects.com/en/stable/) - a template engine for Python
 
 ## Contents
 
@@ -18,7 +18,6 @@ Flask is a web micro-framework. It provides you with the minimal tools and libra
     * [Before-Request Decorator](#before-request-decorator)
     * [After-Request Decorator](#after-request-decorator)
     * [Teardown-Request Decorator](#teardown-request-decorator)
-* [URLs Quick and Dirty](#urls-quick-and-dirty)
 * [Frontend Integration](#frontend-integration)
     * [Static Files](#static-files)
     * [Jinja Template Syntax](#jinja-template-syntax)
@@ -26,6 +25,13 @@ Flask is a web micro-framework. It provides you with the minimal tools and libra
 * [Databases in Flask](#databases-in-flask)
 * [File Input in Flask](#file-input-in-flask)
 * [References](#references)
+    * [Flask Tutorials](#flask-tutorials)
+    * [To Review](#to-review)
+    * [Acknowledgements](#acknowledgements)
+* [Appendices](#appendices)
+    * [Appendix A: World Wide Web (WWW) and Uniform Resource Locator (URL)](#appendix-a-world-wide-web-www-and-uniform-resource-locator-url)
+    * [Appendix B: Client-Server Architecture and HTTP Methods](#appendix-b-client-server-architecture-and-http-methods)
+    * [Appendix C: HTML & CSS Fundamentals](#appendix-c-html--css-fundamentals)
 
 ## Flask Methods
 
@@ -231,17 +237,6 @@ def teardown_request(exception):
 **Key difference from `@app.after_request`:**
 - `after_request` only runs if request succeeds; `teardown_request` always runs
 - `after_request` can modify the response; `teardown_request` cannot
-
-## URLs Quick and Dirty
-
-![URL Breakdown](images/url-breakdown.jpg)
-
-4 parts:
-
-* **Protocol:** specifies how the web server should interpret the information you are sending it.
-* **Host:** points to the domain name of the web server you want to communicate with. Each host is associated with a specific IP address.
-* **Port:** Hold additional information used to connect with the host (think apartment number to the host's street address)
-* **Path:** Indicates where on the server the file you are requesting lives.
 
 ## Frontend Integration
 
@@ -599,10 +594,640 @@ def hello_world():
 
 ## References
 
-* [Flask Tutorial Step by Step - Udemy Course](https://www.udemy.com/course/draft/1114060)
+* [Web Protocols](https://www.realifewebdesigns.com/web-resources/web-protocols.asp)
+* [MDN - Sending and Retrieving Form Data](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Sending_and_retrieving_form_data)
+* [HTTP Status Codes](http://restapitutorial.com/httpstatuscodes)
+* [HTML Examples - Tutorial Republic](https://www.tutorialrepublic.com/html-examples.php)
+* [Jinja2 - Full Stack Python](https://www.fullstackpython.com/jinja2.html)
+
+### Flask Tutorials
+
+* [Flask - Full Stack Python](https://www.fullstackpython.com/flask.html)
+* [The Flask Mega-Tutorial (Miguel Grinberg)](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-now-with-python-3-support)
 
 ### To Review:
 
 * [Python on Heroku](https://devcenter.heroku.com/articles/getting-started-with-python)
 * [API design with Flask](http://blog.luisrei.com/articles/rest.html)
 * [Flask-restful](http://blog.miguelgrinberg.com/post/designing-a-restful-api-using-flask-restful)
+* [Real Python - Flask by Example - Flask with PostgreSQL Deployed on Heroku](https://realpython.com/flask-by-example-part-1-project-setup/)
+
+### Acknowledgements
+
+* [Flask Tutorial Step by Step - Udemy Course](https://www.udemy.com/course/draft/1114060)
+* [Galvanize](https://www.galvanize.com/) (2017) - 12-Week Data Science Immersive program (no longer offered)
+
+---
+
+## Appendices
+
+### Appendix A: World Wide Web (WWW) and Uniform Resource Locator (URL)
+
+**The World Wide Web (WWW):**
+
+The World Wide Web is an information system that allows documents and resources to be accessed over the Internet through web browsers. Created by Tim Berners-Lee in 1989, it uses HTTP (Hypertext Transfer Protocol) to transfer data and hyperlinks to connect related resources.
+
+**Key Components:**
+* **Web Browsers**: Client applications (Chrome, Firefox, Safari) that request and display web content
+* **Web Servers**: Computers that host websites and respond to browser requests
+* **HTTP/HTTPS**: Protocols that define how messages are formatted and transmitted (securely)
+* **HTML**: The markup language used to structure web content
+* **URLs**: Address location of a resource on a networked computer, as well as the mechanism for retrieving it
+
+**Uniform Resource Locator (URL):**
+
+A URL is the address used to access resources on the web. It specifies the location of a resource _and_ the protocol used to retrieve it.
+
+**URL Structure:**
+
+```
+https://www.example.com:443/path/to/page?key=value#section
+└─┬─┘   └──────┬───────┘└┬┘ └────┬────┘ └────┬────┘ └──┬──┘
+  │            │         │       │           │         │
+Protocol  Host/Domain   Port    Path       Query    Fragment
+```
+
+**URL Components:**
+
+1. **Protocol/Scheme**: Specifies how to access the resource
+   - `http://` - Hypertext Transfer Protocol (unencrypted)
+   - `https://` - HTTP Secure (encrypted with SSL/TLS)
+   - `ftp://` - File Transfer Protocol
+   - `file://` - Local file system
+   - List of types of [web protocols](https://www.realifewebdesigns.com/web-resources/web-protocols.asp)
+
+2. **Host/Domain**: The server address where the resource is located
+   - Can be a domain name: `www.example.com`
+   - Or an IP address: `192.168.1.1`
+
+3. **Port** (optional): The communication endpoint on the host
+   - Default HTTP port: `80`
+   - Default HTTPS port: `443`
+   - Custom ports: `:5000` (common for Flask development)
+   - Usually omitted when using default ports
+
+4. **Path**: The specific location of the resource on the server
+   - `/` - Root/home page
+   - `/users/profile` - Specific page or endpoint
+   - `/api/v1/data` - API endpoint
+
+5. **Query String** (optional): Parameters sent to the server
+   - Starts with `?`
+   - Format: `key=value`
+   - Multiple parameters separated by `&`: `?name=John&age=30`
+   - Accessed in Flask via `request.args`
+
+6. **Fragment/Anchor** (optional): Points to a specific section within a page
+   - Starts with `#`
+   - Example: `#section-2`
+   - **Processed by browser**, not sent to server
+
+**URL Examples:**
+
+```
+https://example.com/
+https://example.com:8080/users
+https://api.example.com/v1/users?active=true&limit=10
+http://localhost:5000/predict
+file:///home/user/document.html
+```
+
+**URL Encoding:**
+
+Special characters in URLs must be encoded:
+* Space → `%20` or `+`
+* `?` → `%3F`
+* `&` → `%26`
+* `#` → `%23`
+
+Example: `https://example.com/search?q=python%20flask` (space encoded as `%20`)
+
+### Appendix B: Client-Server Architecture and HTTP Methods
+
+**Client-Server Relationship:**
+
+The client-server model is the fundamental architecture of web applications. The client makes requests, and the server provides responses.
+
+```
+Client (Browser)                    Server (Flask App)
+     │                                     │
+     │─────── HTTP Request ───────────────>│
+     │  (e.g., GET /users)                 │
+     │                                     │
+     │                              [Process Request]
+     │                              [Query Database]
+     │                              [Generate Response]
+     │                                     │
+     │<────── HTTP Response ───────────────│
+     │  (e.g., HTML page or JSON data)     │
+```
+
+**Request-Response Cycle:**
+
+1. **Client sends request**: Browser or API client initiates communication
+2. **Server receives request**: Flask application processes the incoming request
+3. **Server processes**: Executes route function, queries database, applies business logic
+4. **Server sends response**: Returns HTML, JSON, file, or error
+5. **Client receives response**: Browser renders HTML or JavaScript processes data
+
+**Stateless Protocol:**
+
+HTTP is stateless - each request is independent. The server doesn't remember previous requests. To maintain state, applications use:
+* **Cookies**: Small data stored in browser
+* **Sessions**: Server-side data tied to client via cookie
+* **Tokens**: Authentication tokens (JWT) sent with each request
+
+**HTTP Request Methods:**
+
+HTTP defines several methods (also called "verbs") that indicate the desired action:
+
+**1. GET**
+* **Purpose**: Retrieve data from the server
+* **Characteristics**:
+  - Should not modify server data (read-only)
+  - Parameters sent in URL query string
+  - Can be bookmarked and cached
+  - Limited data size (URL length restrictions)
+* **Flask Example**:
+```python
+@app.route('/users', methods=['GET'])
+def get_users():
+    users = User.query.all()
+    return render_template('users.html', users=users)
+```
+* **Use Cases**: Loading pages, searching, filtering, fetching data
+
+**2. POST**
+* **Purpose**: Send data to server to create/update resources
+* **Characteristics**:
+  - Can modify server state
+  - Data sent in request body (not visible in URL)
+  - Not cached by browsers
+  - No size limitations
+* **Flask Example**:
+```python
+@app.route('/users', methods=['POST'])
+def create_user():
+    name = request.form['name']
+    user = User(name=name)
+    db.session.add(user)
+    db.session.commit()
+    return redirect('/users')
+```
+* **Use Cases**: Form submissions, file uploads, creating records, login
+
+**3. PUT**
+* **Purpose**: Update/replace an entire resource
+* **Characteristics**:
+  - Idempotent (multiple identical requests have same effect)
+  - Replaces entire resource
+  - Data sent in request body
+* **Flask Example**:
+```python
+@app.route('/users/<int:id>', methods=['PUT'])
+def update_user(id):
+    data = request.get_json()
+    user = User.query.get(id)
+    user.name = data['name']
+    user.email = data['email']
+    db.session.commit()
+    return jsonify({'success': True})
+```
+* **Use Cases**: Full updates, replacing records
+
+**4. PATCH**
+* **Purpose**: Partially update a resource
+* **Characteristics**:
+  - Updates only specified fields
+  - More efficient than PUT for partial updates
+  - Data sent in request body
+* **Flask Example**:
+```python
+@app.route('/users/<int:id>', methods=['PATCH'])
+def patch_user(id):
+    data = request.get_json()
+    user = User.query.get(id)
+    if 'name' in data:
+        user.name = data['name']
+    db.session.commit()
+    return jsonify({'success': True})
+```
+* **Use Cases**: Partial updates, changing single fields
+
+**5. DELETE**
+* **Purpose**: Remove a resource
+* **Characteristics**:
+  - Idempotent
+  - May include confirmation data in body
+* **Flask Example**:
+```python
+@app.route('/users/<int:id>', methods=['DELETE'])
+def delete_user(id):
+    user = User.query.get(id)
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({'success': True})
+```
+* **Use Cases**: Deleting records, removing resources
+
+**6. HEAD**
+* **Purpose**: Same as GET but returns only headers (no body)
+* **Use Cases**: Checking if resource exists, getting metadata
+
+**7. OPTIONS**
+* **Purpose**: Describe communication options for target resource
+* **Use Cases**: CORS preflight requests, discovering allowed methods
+
+**HTTP Methods Summary Table:**
+
+| Method | Safe* | Idempotent** | Cacheable | Common Use |
+|--------|-------|--------------|-----------|------------|
+| GET | ✓ | ✓ | ✓ | Retrieve data |
+| POST | ✗ | ✗ | ✗ | Create/submit |
+| PUT | ✗ | ✓ | ✗ | Replace resource |
+| PATCH | ✗ | ✗ | ✗ | Partial update |
+| DELETE | ✗ | ✓ | ✗ | Remove resource |
+| HEAD | ✓ | ✓ | ✓ | Get metadata |
+| OPTIONS | ✓ | ✓ | ✗ | Get capabilities |
+
+\* Safe: Does not modify server state  
+\*\* Idempotent: Multiple identical requests produce same result
+
+**Flask Route Method Specification:**
+
+```python
+# Single method
+@app.route('/users', methods=['GET'])
+
+# Multiple methods in one route
+@app.route('/users', methods=['GET', 'POST'])
+def users():
+    if request.method == 'GET':
+        return get_all_users()
+    elif request.method == 'POST':
+        return create_user()
+```
+
+**RESTful API Conventions:**
+
+| Action | Method | URL Pattern | Example |
+|--------|--------|-------------|---------|
+| List all | GET | `/resources` | `GET /users` |
+| Get one | GET | `/resources/<id>` | `GET /users/5` |
+| Create | POST | `/resources` | `POST /users` |
+| Update (full) | PUT | `/resources/<id>` | `PUT /users/5` |
+| Update (partial) | PATCH | `/resources/<id>` | `PATCH /users/5` |
+| Delete | DELETE | `/resources/<id>` | `DELETE /users/5` |
+
+### Appendix C: HTML & CSS Fundamentals
+
+**HTML (HyperText Markup Language):**
+
+HTML is the standard markup language for creating web pages. It structures content using elements (tags) that tell browsers how to display text, images, links, and other content.
+
+**Basic HTML Structure:**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Welcome</h1>
+    <p>This is a paragraph.</p>
+</body>
+</html>
+```
+
+**Common HTML Elements:**
+
+**Document Structure:**
+* `<!DOCTYPE html>` - Declares HTML5 document type
+* `<html>` - Root element
+* `<head>` - Contains metadata (title, links to CSS/JS, meta tags)
+* `<body>` - Contains visible page content
+
+**Text Content:**
+* `<h1>` to `<h6>` - Headings (h1 largest, h6 smallest)
+* `<p>` - Paragraph
+* `<span>` - Inline text container
+* `<strong>` or `<b>` - Bold text
+* `<em>` or `<i>` - Italic text
+* `<br>` - Line break
+* `<hr>` - Horizontal rule/divider
+
+**Links and Media:**
+* `<a href="url">Link Text</a>` - Hyperlink
+* `<img src="image.jpg" alt="Description">` - Image
+* `<video>`, `<audio>` - Multimedia elements
+
+**Lists:**
+```html
+<!-- Unordered List -->
+<ul>
+    <li>Item 1</li>
+    <li>Item 2</li>
+</ul>
+
+<!-- Ordered List -->
+<ol>
+    <li>First</li>
+    <li>Second</li>
+</ol>
+```
+
+**Tables:**
+```html
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>John</td>
+            <td>30</td>
+        </tr>
+    </tbody>
+</table>
+```
+
+**Forms (Critical for Flask):**
+```html
+<form action="/submit" method="POST">
+    <!-- Text Input -->
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    
+    <!-- Email Input -->
+    <input type="email" name="email" placeholder="Enter email">
+    
+    <!-- Password Input -->
+    <input type="password" name="password">
+    
+    <!-- Textarea -->
+    <textarea name="message" rows="4"></textarea>
+    
+    <!-- Dropdown -->
+    <select name="country">
+        <option value="us">United States</option>
+        <option value="uk">United Kingdom</option>
+    </select>
+    
+    <!-- Checkbox -->
+    <input type="checkbox" name="subscribe" value="yes">
+    
+    <!-- Radio Buttons -->
+    <input type="radio" name="gender" value="male"> Male
+    <input type="radio" name="gender" value="female"> Female
+    
+    <!-- Submit Button -->
+    <button type="submit">Submit</button>
+</form>
+```
+
+**Container Elements:**
+* `<div>` - Block-level container (generic division)
+* `<span>` - Inline container
+* `<header>` - Header section
+* `<nav>` - Navigation section
+* `<main>` - Main content
+* `<section>` - Thematic grouping
+* `<article>` - Self-contained content
+* `<footer>` - Footer section
+
+**Attributes:**
+
+HTML elements can have attributes that provide additional information:
+* `id="unique-identifier"` - Unique identifier for element
+* `class="class-name"` - CSS class for styling (can be shared)
+* `style="color: red;"` - Inline CSS styles
+* `href="url"` - Link destination (for `<a>` tags)
+* `src="path"` - Source file (for `<img>`, `<script>`)
+* `alt="description"` - Alternative text (for images)
+* `name="field-name"` - Form field name (sent to server)
+
+---
+
+**CSS (Cascading Style Sheets):**
+
+CSS defines how HTML elements are displayed - colors, fonts, layouts, spacing, and responsive design.
+
+**Three Ways to Include CSS:**
+
+1. **Inline CSS** (not recommended):
+```html
+<p style="color: blue; font-size: 16px;">Text</p>
+```
+
+2. **Internal CSS** (in `<head>`):
+```html
+<head>
+    <style>
+        p { color: blue; }
+    </style>
+</head>
+```
+
+3. **External CSS** (recommended):
+```html
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+```
+
+**CSS Syntax:**
+
+```css
+selector {
+    property: value;
+    another-property: value;
+}
+```
+
+**Selectors:**
+
+```css
+/* Element selector - targets all <p> elements */
+p {
+    color: black;
+}
+
+/* Class selector - targets elements with class="highlight" */
+.highlight {
+    background-color: yellow;
+}
+
+/* ID selector - targets element with id="header" */
+#header {
+    font-size: 24px;
+}
+
+/* Multiple selectors */
+h1, h2, h3 {
+    font-family: Arial;
+}
+
+/* Descendant selector - <p> inside <div> */
+div p {
+    margin: 10px;
+}
+
+/* Child selector - direct child only */
+div > p {
+    padding: 5px;
+}
+
+/* Pseudo-classes - */
+a:hover {
+    color: red;
+}
+
+button:active {
+    background-color: gray;
+}
+```
+
+**Common CSS Properties:**
+
+**Text Styling:**
+```css
+.text {
+    color: #333;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: underline;
+    line-height: 1.5;
+}
+```
+
+**Box Model:**
+```css
+.box {
+    width: 300px;
+    height: 200px;
+    padding: 20px;       /* Space inside border */
+    margin: 10px;        /* Space outside border */
+    border: 2px solid black;
+}
+```
+
+**Background:**
+```css
+.element {
+    background-color: #f0f0f0;
+    background-image: url('image.jpg');
+    background-size: cover;
+}
+```
+
+**Layout:**
+```css
+/* Flexbox */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Grid */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+/* Positioning */
+.fixed {
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+```
+
+**CSS Box Model:**
+
+```
+┌────────────────────────────────────┐
+│           Margin (transparent)     │
+│  ┌──────────────────────────────┐  │
+│  │     Border                   │  │
+│  │  ┌────────────────────────┐  │  │
+│  │  │   Padding              │  │  │
+│  │  │  ┌──────────────────┐  │  │  │
+│  │  │  │    Content       │  │  │  │
+│  │  │  │   (text, images) │  │  │  │
+│  │  │  └──────────────────┘  │  │  │
+│  │  └────────────────────────┘  │  │
+│  └──────────────────────────────┘  │
+└────────────────────────────────────┘
+```
+
+**Responsive Design:**
+
+```css
+/* Mobile-first approach */
+.container {
+    width: 100%;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .container {
+        width: 960px;
+    }
+}
+```
+
+**CSS Frameworks (Bootstrap Example):**
+
+Instead of writing all CSS from scratch, frameworks provide pre-built styles:
+
+```html
+<!-- Bootstrap Classes -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <button class="btn btn-primary">Click Me</button>
+        </div>
+    </div>
+</div>
+```
+
+**CSS in Flask Templates:**
+
+```html
+<!-- Using url_for to link CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<!-- Inline Jinja + CSS -->
+<div class="alert {% if error %}alert-danger{% else %}alert-success{% endif %}">
+    Message here
+</div>
+```
+
+**Best Practices:**
+
+* Use external CSS files for maintainability
+* Use classes for reusable styles, IDs for unique elements
+* Follow naming conventions (BEM, SMACSS)
+* Keep specificity low
+* Use CSS frameworks (Bootstrap, Tailwind) for rapid development
+* Test responsive design on multiple screen sizes
+* Validate CSS for errors
+* Minify CSS for production (`.min.css` files)
