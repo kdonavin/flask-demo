@@ -482,7 +482,16 @@ def bootstrap_static(filename):
 
 Jinja2 is Flask's built-in templating engine and the standard for Flask applications. The following are some basic syntactical structures for use in Jinja templates.
 
-* **Variables - `{{ <var> }}`**: A placeholder for template building
+* **Variables - `{{ <var> }}`**: A placeholder for template building. You can apply **filters** using the pipe (`|`) symbol to modify or convert variable types:
+  - `{{ price | float }}` - Convert to float
+  - `{{ user_id | int }}` - Convert to integer
+  - `{{ name | upper }}` - Convert to uppercase
+  - `{{ description | length }}` - Get length of string/list
+  - `{{ text | default('N/A') }}` - Provide default value if variable is undefined
+  - `{{ html_content | safe }}` - Render HTML without escaping (use carefully!)
+  
+  Filters can be chained: `{{ price | float | round(2) }}` rounds to 2 decimal places.
+
 * **For-Loop**: Render HTML with a for-loop iteration over an input variable defined within the `app()`. `authors
 ```html
 <ul>
