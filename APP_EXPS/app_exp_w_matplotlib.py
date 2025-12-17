@@ -1,9 +1,8 @@
 from random import random
 import matplotlib.pyplot as plt
-from StringIO import StringIO
+from io import BytesIO
 from flask import Flask
 app = Flask(__name__)
-
 
 @app.route('/')
 def index():
@@ -12,16 +11,15 @@ def index():
         <img src='/plot.png'>
         '''
 
-
 @app.route('/plot.png')
 def get_graph():
     plt.figure()
     n = 10
-    plt.plot(range(n), [random() for i in xrange(n)])
-    image = StringIO()
+    plt.plot(range(n), [random() for i in range(n)])
+    image = BytesIO()
     plt.savefig(image)
+    image.seek(0)  # Reset file pointer to beginning
     return image.getvalue(), 200, {'Content-Type': 'image/png'}
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
