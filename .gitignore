@@ -1,3 +1,4 @@
 EDU_REF/
 __pycache__/
 *.db
+static/
