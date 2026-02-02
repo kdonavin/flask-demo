@@ -2,6 +2,16 @@
 
 While Flask's built-in development server (`app.run()`) is excellent for local testing, it's not designed for production use. This guide walks through deploying Flask applications to AWS EC2.
 
+## Contents
+
+* [Why Not Use Flask's Development Server in Production?](#why-not-use-flasks-development-server-in-production)
+* [Deployment Overview](#deployment-overview)
+* [Part 1: Preparing Your Flask App for Deployment](#part-1-preparing-your-flask-app-for-deployment)
+* [Part 2: Deploying to AWS EC2](#part-2-deploying-to-aws-ec2)
+* [Part 3: Production Best Practices](#part-3-production-best-practices)
+* [Part 4: Troubleshooting Common Issues](#part-4-troubleshooting-common-issues)
+* [Resources](#resources)
+
 ## Why Not Use Flask's Development Server in Production?
 
 * Not designed for security or performance

@@ -2,6 +2,20 @@
 
 Heroku is a cloud Platform-as-a-Service (PaaS) that makes deploying Flask applications simple. It abstracts away infrastructure management so you can focus on application code. This guide covers Heroku deployment and related Flask setup.
 
+## Contents
+
+* [PaaS Alternatives](#paas-alternatives)
+* [Why Choose Heroku?](#why-choose-heroku)
+* [Prerequisites](#prerequisites)
+* [Deploying to Heroku](#deploying-to-heroku)
+* [Managing Your Heroku App](#managing-your-heroku-app)
+* [Working with Databases on Heroku](#working-with-databases-on-heroku)
+* [Continuous Deployment](#continuous-deployment)
+* [Common Heroku Issues and Solutions](#common-heroku-issues-and-solutions)
+* [Alternative Hosting Options](#alternative-hosting-options)
+* [Heroku vs AWS EC2 Comparison](#heroku-vs-aws-ec2-raw-vm-comparison)
+* [Resources](#resources)
+
 ## PaaS Alternatives
 
 Heroku is one option in the PaaS category. Common alternatives include:
